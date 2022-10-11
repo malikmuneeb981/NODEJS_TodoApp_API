@@ -18,7 +18,7 @@ dotenv.config({path:`./config/config.env`})
 const PORT =process.env.PORT
 connectDB()
 server.use('/api/todo/auth',require('./routes/user'))
-server.listen(PORT,'localhost',(req,res)=>{
+server.listen(PORT,(req,res)=>{
 
 console.log(`Server is running on port: ${PORT}`);
 
