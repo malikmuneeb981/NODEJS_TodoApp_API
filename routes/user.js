@@ -90,7 +90,7 @@ router.post("/register", async (req, res, next) => {
       email: email,
     });
     if (isuser) {
-      return res.status(400).json({
+      return res.json({
         success: false,
         msg: "User already exists",
         user: null
