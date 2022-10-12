@@ -96,6 +96,8 @@ router.post("/register", async (req, res, next) => {
         user: null
       });
     }
+    else
+    {
     const user = new User();
     user.username = username;
     user.email = email;
@@ -111,6 +113,7 @@ router.post("/register", async (req, res, next) => {
       success: true,
       user: user,
     });
+  } 
   } catch (err) {
     console.log(err);
   }
