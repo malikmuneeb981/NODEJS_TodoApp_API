@@ -93,6 +93,7 @@ router.post("/register", async (req, res, next) => {
       return res.status(400).json({
         success: false,
         msg: "User already exists",
+        user: null
       });
     }
     const user = new User();
