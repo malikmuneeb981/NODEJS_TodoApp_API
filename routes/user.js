@@ -91,9 +91,9 @@ router.post("/register", async (req, res, next) => {
     });
     if (isuser) {
       return res.json({
-        success: false,
         msg: "User already exists",
-        user: null
+        success: false,
+        user: null,
       });
     }
     else
