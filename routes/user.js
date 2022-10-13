@@ -90,30 +90,28 @@ router.post("/register", async (req, res, next) => {
       email: email,
     });
     if (isuser) {
-      return res.json({
+      return res.status(400).json({
         msg: "User already exists",
         success: false,
         user: null,
       });
+    } else {
+      const user = new User();
+      user.username = username;
+      user.email = email;
+      const pass_encrypt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, pass_encrypt);
+      // const encryptpass = await bcrypt.getSalt(10);
+      // user.password = await bcrypt.hash(password, encryptpass);
+      let size = 200;
+      user.avatar = "https://gravatar.com/avatar/?s=" + size + "&d=retro";
+      await user.save();
+      return res.status(200).json({
+        msg: "Register Success",
+        success: true,
+        user: user,
+      });
     }
-    else
-    {
-    const user = new User();
-    user.username = username;
-    user.email = email;
-    const pass_encrypt = await bcrypt.genSalt(10);
-    user.password= await bcrypt.hash(password, pass_encrypt);
-    // const encryptpass = await bcrypt.getSalt(10);
-    // user.password = await bcrypt.hash(password, encryptpass);
-    let size = 200;
-    user.avatar = "https://gravatar.com/avatar/?s=" + size + "&d=retro";
-    await user.save();
-    return res.json({
-      msg: "Register Success",
-      success: true,
-      user: user,
-    });
-  } 
   } catch (err) {
     console.log(err);
   }
@@ -136,7 +134,7 @@ router.post("/register", async (req, res, next) => {
 //         const user=new User()
 //         user.email=email
 //         user.username=username
-//         
+//
 //         let size=200
 //         user.avatar="https://gravatar.com/avatar/?s="+size+'&d=retro'
 //         await user.save()
