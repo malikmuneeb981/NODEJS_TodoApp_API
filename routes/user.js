@@ -90,7 +90,7 @@ router.post("/register", async (req, res, next) => {
       email: email,
     });
     if (isuser) {
-      return res.status(400).json({
+      return res.json({
         msg: "User already exists",
         success: false,
         user: null,
@@ -106,7 +106,7 @@ router.post("/register", async (req, res, next) => {
       let size = 200;
       user.avatar = "https://gravatar.com/avatar/?s=" + size + "&d=retro";
       await user.save();
-      return res.status(200).json({
+      return res.json({
         msg: "Register Success",
         success: true,
         user: user,
