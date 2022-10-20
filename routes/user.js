@@ -44,7 +44,7 @@ router.post("/login", async (req, res, next) => {
     }
     const passmatch = await bcrypt.compare(password, user.password);
     if (!passmatch) {
-     return res.status(400).json({
+      return res.status(400).json({
         success: false,
         msg: "Invalid Password!",
         token: null,
@@ -52,7 +52,9 @@ router.post("/login", async (req, res, next) => {
       });
     }
     const payload = {
-      id: user.id,
+      user: {
+        id: user.id,
+      },
     };
     jwt.sign(
       payload,
@@ -61,7 +63,7 @@ router.post("/login", async (req, res, next) => {
       (err, token) => {
         if (err) throw err;
         else {
-         return res.status(200).json({
+          return res.status(200).json({
             success: true,
             msg: "Correct User",
             token: token,
@@ -116,6 +118,46 @@ router.post("/register", async (req, res, next) => {
     console.log(err);
   }
 });
+module.exports = router;
+
+// router.post('/register',async(req,res,next)=>{
+// const {email,password,username}=req.body
+
+// try{
+//   const isuser= await User.findOne({email:email})
+
+//   if(isuser)
+//   {
+//    return res.json({
+//       success:false,
+//       msg:"User Already Exists",
+//       user:null
+//     })
+//   }
+//   else
+//   {
+
+//     const user=new User()
+//     user.email=email
+//     user.username=username
+//     const salt=await bcrypt.genSalt(10)
+//     user.password=await bcrypt.hash(password,salt)
+//     await user.save()
+
+//     return res.json({
+//       success:true,
+//       msg:"Registered Successfully",
+//       user:user
+//     })
+//   }
+
+// }
+// catch(err)
+// {
+// console.log(err);
+// }
+
+// })
 
 // router.post('/register',async(req,res,next)=>{
 
@@ -151,7 +193,6 @@ router.post("/register", async (req, res, next) => {
 //     }
 
 // })
-module.exports = router;
 
 // router.post('/login',async(req,res,next)=>{
 

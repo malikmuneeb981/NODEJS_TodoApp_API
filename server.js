@@ -15,9 +15,11 @@ server.use(express.json({
 
 
 dotenv.config({path:`./config/config.env`})
-const PORT =process.env.PORT
+const PORT =process.env.PORT||3000
 connectDB()
 server.use('/api/todo/auth',require('./routes/user'))
+server.use('/api/todo',require('./routes/todo'))
+
 server.listen(PORT,(req,res)=>{
 
 console.log(`Server is running on port: ${PORT}`);

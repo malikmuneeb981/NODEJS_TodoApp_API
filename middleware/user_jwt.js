@@ -1,84 +1,33 @@
-const jwt=require('jsonwebtoken')
+const jwt = require("jsonwebtoken");
 
+module.exports = async (req, res, next) => {
+  const token = req.header("Authorization");
 
-module.exports=async(req,res,next)=>{
+  if (!token) {
+    return res.status(401).json({
+      msg: "Authorization failed token not found",
+    });
+  }
 
-    const token=req.header('Authorization')
-
-    if(!token)
-    {
-        return res.status(401).json({
-
-        msg:"Authorization failed token not found"
-
-        })
-    }
-    
-    try{
-            await jwt.verify(token,process.env.jwtusersecret,(err,decoded)=>{
-
-             if(err)
-             {
-               res.status(401).json({
-                msg:"Authorization failed token invalid"
-               })
-
-             }
-             else
-             {
-
-                req.user=decoded.user
-                next()
-
-
-             }
-
-
-            })
-    }
-    catch(err)
-    {
-            console.log(err);
-    }
-
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  try {
+    await jwt.verify(token, process.env.jwtusersecret, (err, decode) => {
+      if (err) {
+        res.status(401).json({
+          msg: "Authorization failed token invalid",
+        });
+      } else {
+        req.user = decode.user;
+        next();
+      }
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 // const jwt=require('jsonwebtoken')
 
 // module.exports=async (req,res,next)=>{
-
 
 //     const token = req.header('Authorization')
 //     if(!token)
@@ -92,7 +41,6 @@ module.exports=async(req,res,next)=>{
 
 //         try{
 //             await jwt.verify(token,process.env.jwtusersecret,(err,decode)=>{
-
 
 //                 if(err)
 //                 {
@@ -115,7 +63,5 @@ module.exports=async(req,res,next)=>{
 // console.log(`Something went wrong with server`);
 //         }
 //     }
-
-
 
 // }
