@@ -12,9 +12,7 @@ module.exports = async (req, res, next) => {
   try {
     await jwt.verify(token, process.env.jwtusersecret, (err, decode) => {
       if (err) {
-        res.status(401).json({
-          msg: "Authorization failed token invalid",
-        });
+        throw err
       } else {
         req.user = decode.user;
         next();
